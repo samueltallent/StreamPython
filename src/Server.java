@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -27,6 +25,8 @@ public class Server {
             String inputLine1 = null;
             while ((inputLine1 = in1.readLine()) != null) {
                 System.out.println("Input: " + inputLine1.substring(2, inputLine1.length() - 1)); //inputLine1.substring(2, inputLine1.length() - 1)) => to client to be decoded and displayed
+                PrintWriter cOut = new PrintWriter(clientSocket.getOutputStream());
+                cOut.println(inputLine1.substring(2, inputLine1.length() - 1));
                 /* This section demonstrates how to decode the image from the above string, this code should be moved to the android client.
                 BufferedImage img = null;
                 byte[] imageByte;
