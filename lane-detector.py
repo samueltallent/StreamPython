@@ -6,12 +6,15 @@ import cv2
 import glob
 import time
 import os
+import sys
+import base64
 import argparse
 from moviepy.editor import VideoFileClip
+from builtins import range
 
 # CHANGE THESE
-input_directory = '/media/max/Storage/comma-dataset/comma-dataset/images/'
-output_directory = '/media/max/Storage/comma-dataset/comma-dataset/output/'
+input_directory = '/Users/samueltallent/Desktop/school/Spring 18/ConcurrentAndDistributed/StreamPython/input/'
+output_directory = '/Users/samueltallent/Desktop/school/Spring 18/ConcurrentAndDistributed/StreamPython/output/'
 
 parser = argparse.ArgumentParser(description='Lane line detector')
 parser.add_argument('--export_binary', dest='export_binary', action='store_true')
@@ -19,7 +22,7 @@ parser.set_defaults(export_binary=False)
 args = parser.parse_args()
 
 frame_begin = 10000
-frame_end = 16000
+frame_end = 10005
 
 def corners_unwarp(img):
     img_size = (img.shape[1], img.shape[0])
@@ -420,9 +423,8 @@ for i in range(frame_begin, frame_end):
         output = process_image(rgb)
         bgr = cv2.cvtColor(output, cv2.COLOR_RGB2BGR)
 
-        # Uncomment this to show the frames being output
-        #cv2.imshow('frame', bgr)
-        cv2.imwrite(output_directory + str(i) + '.jpg', bgr)
-
+        imjpg = cv2.imencode('.jpg', bgr)
+        sys.stdout.write(str(base64.b64encode(imjpg[1].tobytes())))
+        sys.stdout.write('\n') # Delimits between the multiple images
         if cv2.waitKey(25) == 27:
             break

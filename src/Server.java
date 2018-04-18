@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
 public class Server {
     public static void main(String[] args) throws IOException {
 
@@ -25,7 +26,13 @@ public class Server {
                             p.getInputStream()));
             String inputLine1 = null;
             while ((inputLine1 = in1.readLine()) != null) {
-                System.out.println("Input: " + inputLine1);
+                System.out.println("Input: " + inputLine1.substring(2, inputLine1.length() - 1)); //inputLine1.substring(2, inputLine1.length() - 1)) => to client to be decoded and displayed
+                /* This section demonstrates how to decode the image from the above string, this code should be moved to the android client.
+                BufferedImage img = null;
+                byte[] imageByte;
+                imageByte = Base64.getDecoder().decode(inputLine1.substring(2, inputLine1.length() - 1));
+                img = ImageIO.read(new ByteArrayInputStream(imageByte));
+                 */
             }
         } catch (IOException e) {
             System.err.println("Accept failed.");
